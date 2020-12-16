@@ -20,7 +20,7 @@ dependencies:
   flutter_secure_storage: ^3.3.5
   iflabapi:
     git:
-      url: git://github.com/jlouage/flutter-carousel-pro.git
+      url: git://github.com/Mufidzz/iflabapi-flutter.git
       ref: master
 ```
 

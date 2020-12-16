@@ -18,6 +18,10 @@ samples, guidance on mobile development, and a full API reference.
 dependencies:
   http: ^0.12.2
   flutter_secure_storage: ^3.3.5
+  iflabapi:
+    git:
+      url: git://github.com/jlouage/flutter-carousel-pro.git
+      ref: master
 ```
 
 ## Authenticating

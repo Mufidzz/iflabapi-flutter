@@ -78,11 +78,11 @@ get Response Meta
 ```
 print(myData.Meta["Key"])
 //or print all available key
-print(myData.getMetaKey)
+print(myData.getMetaKey())
 ```
 get Response Data
 ```
 print(myData.Data["Key"])
 //or print all available key
-print(myData.getDataKey)
+print(myData.getDataKey())
 ```

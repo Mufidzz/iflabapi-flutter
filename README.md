@@ -82,3 +82,23 @@ print(myData.Data["Key"])
 //or print all available key
 print(myData.getDataKey)
 ```
+
+## Content of Meta
+```
+A           string
+AccessTime  time.Time
+AccessIP    string
+Scope       string
+Errors      Array of Errors
+Request     string
+```
+
+A is User Acces Level notated at AIUD where
+
+A = Assistant
+
+I = Instructor
+
+U = User / Practician
+
+D = Admin

@@ -143,10 +143,10 @@ class Auth {
   Future<bool> authorize() async {
     var response = await http.post(
       _url,
-      body: {
+      body: json.encode({
         "UserName": _username,
         "Password": _password,
-      },
+      }),
       headers: {
         "IFX-CLIENT": _client,
         "IFX-SECRET": _clientSecret,

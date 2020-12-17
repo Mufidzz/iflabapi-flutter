@@ -8,24 +8,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureRequestResponse {
   // ignore: non_constant_identifier_names
-  Map<String, dynamic> Meta;
+  String Meta;
 
   // ignore: non_constant_identifier_names
-  Map<String, dynamic> Data;
+  String Data;
   int statusCode;
 
   SecureRequestResponse({meta, data, sc}) {
     Meta = meta;
     Data = data;
     statusCode = sc;
-  }
-
-  Iterable<String> getMetaKey() {
-    return Meta.keys;
-  }
-
-  Iterable<String> getDataKey() {
-    return Data.keys;
   }
 }
 
@@ -36,7 +28,7 @@ class SecureRequest {
   final _sk = '__api-auth-q';
   final _storage = new FlutterSecureStorage();
 
-  SecureRequest({String url = 'http://api.infotech.umm.ac.id/api/v1/'}) {
+  SecureRequest({String url = 'http://api.infotech.umm.ac.id/res/v1/'}) {
     _resourceURL = url;
   }
 
@@ -82,6 +74,9 @@ class SecureRequest {
       realPath += element + "/";
     });
 
+    if (path.length > 1) {
+      realPath = realPath.substring(0, realPath.length - 2);
+    }
     return realPath;
   }
 
@@ -89,8 +84,8 @@ class SecureRequest {
     var dec = json.decode(response.body);
 
     return new SecureRequestResponse(
-      meta: dec["Meta"],
-      data: dec["Data"],
+      meta: json.encode(dec["Meta"]),
+      data: json.encode(dec["Data"]),
       sc: response.statusCode,
     );
   }

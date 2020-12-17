@@ -178,7 +178,7 @@ class Auth {
 
     c.forEach((el) {
       if (el != null) {
-        int index = rawCookie.indexOf(';');
+        int index = el.indexOf(';');
         s += (index == -1) ? el : el.substring(0, index) + ";";
       }
     });

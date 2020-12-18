@@ -13,11 +13,13 @@ class SecureRequestResponse {
   // ignore: non_constant_identifier_names
   String Data;
   int statusCode;
+  String uri;
 
-  SecureRequestResponse({meta, data, sc}) {
+  SecureRequestResponse({meta, data, sc, uri}) {
     Meta = meta;
     Data = data;
     statusCode = sc;
+    uri = uri;
   }
 }
 
@@ -87,6 +89,7 @@ class SecureRequest {
       meta: json.encode(dec["Meta"]),
       data: json.encode(dec["Data"]),
       sc: response.statusCode,
+      uri: response.request.url,
     );
   }
 }

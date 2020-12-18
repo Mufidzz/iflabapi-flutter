@@ -13,13 +13,13 @@ class SecureRequestResponse {
   // ignore: non_constant_identifier_names
   String Data;
   int statusCode;
-  String uri;
+  String URI;
 
   SecureRequestResponse({meta, data, sc, uri}) {
     Meta = meta;
     Data = data;
     statusCode = sc;
-    uri = uri;
+    URI = uri;
   }
 }
 
@@ -40,7 +40,7 @@ class SecureRequest {
     var response = await http.get(_resourceURL + parsePath(path),
         headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response);
+    return _parseResponse(response, _resourceURL + parsePath(path));
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -49,7 +49,7 @@ class SecureRequest {
     var response = await http.post(_resourceURL + parsePath(path),
         body: body, headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response);
+    return _parseResponse(response, _resourceURL + parsePath(path));
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -58,7 +58,7 @@ class SecureRequest {
     var response = await http.put(_resourceURL + parsePath(path),
         body: body, headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response);
+    return _parseResponse(response, _resourceURL + parsePath(path));
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -67,7 +67,7 @@ class SecureRequest {
     var response = await http.delete(_resourceURL + parsePath(path),
         headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response);
+    return _parseResponse(response, _resourceURL + parsePath(path));
   }
 
   String parsePath(List<String> path) {
@@ -82,14 +82,14 @@ class SecureRequest {
     return realPath;
   }
 
-  SecureRequestResponse _parseResponse(http.Response response) {
+  SecureRequestResponse _parseResponse(http.Response response, String uri) {
     var dec = json.decode(response.body);
 
     return new SecureRequestResponse(
       meta: json.encode(dec["Meta"]),
       data: json.encode(dec["Data"]),
       sc: response.statusCode,
-      uri: response.request.url,
+      uri: uri,
     );
   }
 }

@@ -28,7 +28,7 @@ class SecureRequest {
   final _sk = '__api-auth-q';
   final _storage = new FlutterSecureStorage();
 
-  SecureRequest({String url = 'http://api.infotech.umm.ac.id/res/v1/'}) {
+  SecureRequest({String url = 'https://api.infotech.umm.ac.id/res/v1/'}) {
     _resourceURL = url;
   }
 
@@ -110,7 +110,7 @@ class Auth {
     @required String secret,
     @required String username,
     @required String password,
-    String url = 'http://api.infotech.umm.ac.id/auth/',
+    String url = 'https://api.infotech.umm.ac.id/auth/',
   }) {
     _client = client;
     _clientSecret = secret;
@@ -129,6 +129,27 @@ class Auth {
     }
 
     _message = "user credential is present";
+    return true;
+  }
+
+  ///Method for remove Auth-Token and Remove from Secure Storage
+  Future<bool> deauthorize() async {
+    var response = await http.get(_url + "clear",
+        headers: {'cookie': await _storage.read(key: _sk)});
+
+    _message = response.body;
+    if (response.statusCode != 200) {
+      return false;
+    }
+
+    if (response.headers['set-cookie'].isNotEmpty) {
+      final storage = new FlutterSecureStorage();
+      await storage.write(
+        key: _sk,
+        value: _parseToRequestCookie(response),
+      );
+    }
+
     return true;
   }
 

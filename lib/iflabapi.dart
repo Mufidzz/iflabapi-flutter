@@ -13,13 +13,11 @@ class SecureRequestResponse {
   // ignore: non_constant_identifier_names
   String Data;
   int statusCode;
-  String URI;
 
-  SecureRequestResponse({meta, data, sc, uri}) {
+  SecureRequestResponse({meta, data, sc}) {
     Meta = meta;
     Data = data;
     statusCode = sc;
-    URI = uri;
   }
 }
 
@@ -37,10 +35,14 @@ class SecureRequest {
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
   ///instead of making new variable
   Future<SecureRequestResponse> get(List<String> path) async {
-    var response = await http.get(_resourceURL + parsePath(path),
-        headers: {'cookie': await _storage.read(key: _sk)});
+    var url = _resourceURL + parsePath(path);
 
-    return _parseResponse(response, _resourceURL + parsePath(path));
+    print("Hitting to $url");
+
+    var response =
+        await http.get(url, headers: {'cookie': await _storage.read(key: _sk)});
+
+    return _parseResponse(response);
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -49,7 +51,7 @@ class SecureRequest {
     var response = await http.post(_resourceURL + parsePath(path),
         body: body, headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response, _resourceURL + parsePath(path));
+    return _parseResponse(response);
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -58,7 +60,7 @@ class SecureRequest {
     var response = await http.put(_resourceURL + parsePath(path),
         body: body, headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response, _resourceURL + parsePath(path));
+    return _parseResponse(response);
   }
 
   ///Secure HTTP Request to our Endpoint, use method(["path1", "path2"])
@@ -67,7 +69,7 @@ class SecureRequest {
     var response = await http.delete(_resourceURL + parsePath(path),
         headers: {'cookie': await _storage.read(key: _sk)});
 
-    return _parseResponse(response, _resourceURL + parsePath(path));
+    return _parseResponse(response);
   }
 
   String parsePath(List<String> path) {
@@ -82,14 +84,13 @@ class SecureRequest {
     return realPath;
   }
 
-  SecureRequestResponse _parseResponse(http.Response response, String uri) {
+  SecureRequestResponse _parseResponse(http.Response response) {
     var dec = json.decode(response.body);
 
     return new SecureRequestResponse(
       meta: json.encode(dec["Meta"]),
       data: json.encode(dec["Data"]),
       sc: response.statusCode,
-      uri: uri,
     );
   }
 }

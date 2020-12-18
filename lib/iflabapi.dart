@@ -78,7 +78,7 @@ class SecureRequest {
       realPath += element + "/";
     });
 
-    if (path.length > 1 && realPath[realPath.length] == "/") {
+    if (path.length > 1 && realPath[realPath.length - 1] == "/") {
       realPath = realPath.substring(0, realPath.length - 1);
     }
     return realPath;
